@@ -1,6 +1,6 @@
 {
     "name": "conversejs.luigi311",
-    "description": "xmpp client",
+    "description": "Jabber chat with OMEMO encryption",
     "architecture": "@CLICK_ARCH@",
     "title": "ConverseJS",
     "hooks": {
