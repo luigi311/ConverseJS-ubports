@@ -1,5 +1,7 @@
 # ConverseJS
 
+Original Implementation: https://github.com/poVoq/conversejs-ubports
+
 This is an unofficial HTML5 wrapper for the ConverseJS Jabber / XMPP chat client. Thanks a lot to the ConverseJS team, they did all the hard work! Check it out here: https://conversejs.org/
 
 NOTE: YOUR XMPP SERVER MUST HAVE *CORS* ENABLED FOR BOSH OR WEBSOCKET CONNECTIONS!
