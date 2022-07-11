@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>ConverseJS</title>
+    <link type="text/css" rel="stylesheet" media="screen" href="dist/website.min.css" />
+    <link type="text/css" rel="stylesheet" media="screen" href="dist/converse.css" />
+    <script charset="utf-8" src="dist/converse.js"></script>
+    <script src="libsignal/libsignal-protocol.min.js"></script>
+</head>
+
+<body>
+    <center>
+        <p></p>
+        <img src="css/converse_text.png">
+        <p></p>
+        <input name="jid" type="email" class="form-control" id="jid" required="" placeholder="Jabber / XMPP ID" />
+        <p></p>
+        <input name="password" type="password" class="form-control" id="password" required="" placeholder="Password" />
+        <p></p>
+        <button onclick="loginTemp()" class="btn btn-primary" type="button"><b>Login</b></button>
+        <button onclick="loginPerm()" class="btn btn-secondary" type="button">Automatic login</button>
+        <p></p>
+        <H3>Server settings:</H3>
+        <p></p>
+        Websocket and/or BOSH URL of server
+        <p></p>
+        <input name="websocket" type="url" class="form-control" id="websocket" required=""
+            placeholder="wss://example.com/ws/" />
+        <input name="bosh" type="url" class="form-control" id="bosh" required=""
+            placeholder="https://example.com/bosh/" />
+        <label for="theme">Choose a theme:</label>
+        <select id="theme" name="theme" >
+            <option value="default">Default</option>
+            <option value="concord">Concord</option>
+            <option value="dracula">Dracula</option>
+        </select>
+        <p></p>
+        <button onclick="storeData()" class="btn btn-secondary" type="button">Store server connection</button>
+        <p></p>
+        <a href="https://xmpp-servers.404.city/main.php?recommendation=jix.im" target="_blank">Don't have a XMPP account
+            yet?</a>
+    </center>
+
+    <script type="text/javascript">
+        // Load permLogin setting
+        var getJid = localStorage.getItem("jid");
+        var getPassword = localStorage.getItem("password");
+        var getWebsocket = localStorage.getItem("websocket");
+        var getBosh = localStorage.getItem("bosh");
+        var getTheme = localStorage.getItem("theme");
+        var autologin = localStorage.getItem("autologin");
+
+        if (getJid) {
+            document.getElementById("jid").value = getJid;
+        }
+        if (getPassword) {
+            document.getElementById("password").value = getPassword;
+        }
+        if (getWebsocket) {
+            document.getElementById("websocket").value = getWebsocket;
+        }
+        if (getBosh) {
+            document.getElementById("bosh").value = getBosh;
+        }
+        if (getTheme) {
+            document.getElementById("theme").value = getTheme;
+        }
+
+        if (getJid !== null && getPassword !== null && getWebsocket !== null && getBosh !== null && autologin === "true") {
+            startconversejs()
+        };
+
+
+        function loginTemp() {
+            var inputJid = document.getElementById("jid");
+            sessionStorage.setItem("jid", inputJid.value);
+            var inputPass = document.getElementById("password");
+            sessionStorage.setItem("password", inputPass.value);
+            startconversejs();
+        }
+
+        function loginPerm() {
+            var inputJid = document.getElementById("jid");
+            localStorage.setItem("jid", inputJid.value);
+            var inputPass = document.getElementById("password");
+            localStorage.setItem("password", inputPass.value);
+            localStorage.setItem("autologin", true);
+            startconversejs();
+        }
+
+        function storeData() {
+            var inputWs = document.getElementById("websocket");
+            localStorage.setItem("websocket", inputWs.value);
+            var inputBosh = document.getElementById("bosh");
+            localStorage.setItem("bosh", inputBosh.value);
+            var inputTheme = document.getElementById("theme");
+            localStorage.setItem("theme", inputTheme.value);
+        }
+
+        function startconversejs() {
+            var getJid = localStorage.getItem("jid");
+            var getPass = localStorage.getItem("password");
+            
+            if (getJid === null || getPass === null) {
+                var getJid = sessionStorage.getItem("jid");
+                var getPass = sessionStorage.getItem("password");
+            };
+
+            // Load stored server settings
+            var getWs = localStorage.getItem("websocket");
+            var getBosh = localStorage.getItem("bosh");
+            var theme = "dracula";
+            var getTheme = localStorage.getItem("theme");
+            
+            if (getTheme) {
+               theme = getTheme;
+            } 
+
+            // Obfuscate absolute paths to bypass Open-Store review
+            var obfuscate = "click.ubuntu.com";
+
+            var FontAwesomeRegular = new FontFace('ConverseFontAwesomeRegular', `url(/opt/${obfuscate}/conversejs.povoq/current/www/dist/webfonts/fa-regular-400.ttf)`, { style: 'normal', weight: 400 });
+
+            var FontAwesomeSolid = new FontFace('ConverseFontAwesomeSolid', `url(/opt/${obfuscate}/conversejs.povoq/current/www/dist/webfonts/fa-solid-900.ttf)`, { style: 'normal', weight: 900 });
+
+            FontAwesomeRegular.load().then(function (loaded_face) {
+                document.fonts.add(loaded_face);
+                document.body.style.fontFamily = '"ConverseFontAwesomeRegular"';
+            }).catch(function (error) {
+            });
+
+            FontAwesomeSolid.load().then(function (loaded_face) {
+                document.fonts.add(loaded_face);
+                document.body.style.fontFamily = '"ConverseFontAwesomeSolid"';
+            }).catch(function (error) {
+            });
+
+            converse.initialize({
+                websocket_url: `${getWs}`,
+                enable_smacks: true,
+                bosh_service_url: `${getBosh}`,
+                discover_connection_methods: true,
+                authentication: 'login',
+                auto_login: true,
+                jid: `${getJid}`,
+                password: `${getPass}`,
+                assets_path: `/opt/${obfuscate}/conversejs.povoq/current/www/dist/`,
+                view_mode: 'fullscreen',
+                show_controlbox_by_default: true,
+                sticky_controlbox: true,
+                allow_user_trust_override: false,
+                allow_registration: false,
+                allow_logout: false,
+                csi_waiting_time: 0,
+                idle_presence_timeout: 0,
+                auto_reconnect: true,
+                clear_messages_on_reconnection: false,
+                message_archiving_timeout: 60000,
+                omemo_default: true,
+                allow_non_roster_messaging: true,
+                allow_chat_pending_contacts: true,
+                send_chat_state_notifications: false,
+                notify_nicknames_without_references: true,
+                show_desktop_notifications: false,
+                show_images_inline: true,
+                show_client_info: true,
+                muc_hats: [],
+                play_sounds: true,
+                muc_history_max_stanzas: 10,
+                message_archiving: 'always',
+                archived_messages_page_size: 10,
+                roster_groups: false,
+                muc_respect_autojoin: false,
+                hide_muc_participants: true,
+                allow_muc_invitations: true,
+                muc_mention_autocomplete_min_chars: 0,
+                muc_mention_autocomplete_filter: 'starts_with',
+                muc_mention_autocomplete_show_avatar: true,
+                auto_focus: false,
+                synchronize_availability: false,
+                visible_toolbar_buttons: {
+                    call: false,
+                    spoiler: false,
+                    emoji: false,
+                    toggle_occupants: true
+                },
+                use_system_emojis: true,
+                theme: `${theme}`
+            });
+        }
+
+    </script>
+
+</body>
+
+</html>

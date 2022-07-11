@@ -1,0 +1,15 @@
+{
+    "name": "conversejs.luigi311",
+    "description": "xmpp client",
+    "architecture": "@CLICK_ARCH@",
+    "title": "ConverseJS",
+    "hooks": {
+        "conversejs": {
+            "apparmor": "conversejs.apparmor",
+            "desktop":  "conversejs.desktop"
+        }
+    },
+    "version": "1.0.0",
+    "maintainer": "luigi311 <ubports@luigi311.com>",
+    "framework" : "@CLICK_FRAMEWORK@"
+}
