@@ -1,6 +1,6 @@
 # ConverseJS
 
-xmpp client
+Jabber chat with OMEMO encryption
 
 ## License
 

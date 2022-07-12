@@ -14,54 +14,54 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.7
+import QtQuick 2.12
+import QtQuick.Layouts 1.12
+import QtQuick.Controls 2.12
+import Qt.labs.settings 1.1
+import QtWebEngine 1.11
 import Ubuntu.Components 1.3
-//import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
-import Qt.labs.settings 1.0
-import io.thp.pyotherside 1.4
-import QtWebEngine 1.8
+
 
 MainView {
-    id: root
-    objectName: 'mainView'
-    applicationName: 'conversejs.luigi311'
-    automaticOrientation: true
-
-    width: units.gu(45)
-    height: units.gu(75)
-
-    Python {
-        id: python
-
-        Component.onCompleted: {
-            addImportPath(Qt.resolvedUrl('../src/'));
-
-            importModule('server', function() {
-                console.log('module imported');
-                python.call('server.main', function(returnValue) {
-                    console.log('server.main returned ' + returnValue);
-                })
-            });
-        }
-
-        onError: {
-            console.log('python error: ' + traceback);
+    id : root
+    objectName : 'mainView'
+    applicationName : 'conversejs.luigi311'
+    automaticOrientation : true
+    backgroundColor : "transparent"
+    anchors {
+        fill : parent
+        bottomMargin : UbuntuApplication.inputMethod.visible
+            ? UbuntuApplication
+                .inputMethod
+                .keyboardRectangle
+                .height / Screen.devicePixelRatio
+            : 0
+        Behavior on bottomMargin {
+            NumberAnimation {
+                duration : 175
+                easing.type : Easing.OutQuad
+            }
         }
     }
 
-    Page {
-        id: mainPage
-        anchors.fill: parent
 
-        WebEngineView {
-                id: webView
-                anchors.fill: parent
-                focus: true
-                url: "http://localhost:8080/"
-                settings.pluginsEnabled: true
-                settings.javascriptEnabled: true
+    PageStack {
+        id : mainPageStack
+        anchors.fill : parent
+        Component.onCompleted : mainPageStack.push(mainPage)
+        Page {
+            id : mainPage
+            anchors.fill : parent
+            WebEngineView {
+                    id : webView
+                    anchors.fill : parent
+                    focus : true
+                    url : "http://localhost:19500/"
+                    settings.pluginsEnabled : true
+                    settings.javascriptEnabled : true
+                    settings.showScrollBars : false
+
+            }
         }
     }
-
 }
