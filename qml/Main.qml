@@ -44,7 +44,6 @@ MainView {
                 anchors.fill : parent
                 focus : true
                 url : "http://localhost:19999/"
-                webChannel: channel
                 settings.pluginsEnabled : true
                 settings.javascriptEnabled : true
         }
