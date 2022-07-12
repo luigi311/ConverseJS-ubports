@@ -28,6 +28,22 @@ MainView {
     applicationName : 'conversejs.luigi311'
     automaticOrientation : true
     backgroundColor : "transparent"
+    anchors {
+        fill : parent
+        bottomMargin : UbuntuApplication.inputMethod.visible
+            ? UbuntuApplication
+                .inputMethod
+                .keyboardRectangle
+                .height / Screen.devicePixelRatio
+            : 0
+        Behavior on bottomMargin {
+            NumberAnimation {
+                duration : 175
+                easing.type : Easing.OutQuad
+            }
+        }
+    }
+
 
     PageStack {
         id : mainPageStack

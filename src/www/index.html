@@ -90,7 +90,7 @@
             localStorage.setItem("jid", inputJid.value);
             var inputPass = document.getElementById("password");
             localStorage.setItem("password", inputPass.value);
-            //localStorage.setItem("autologin", true);
+            localStorage.setItem("autologin", true);
             startconversejs();
         }
 
@@ -131,7 +131,7 @@
                 auto_login: true,
                 jid: `${getJid}`,
                 password: `${getPass}`,
-                view_mode: 'mobile',
+                view_mode: 'fullscreen',
                 show_controlbox_by_default: true,
                 sticky_controlbox: true,
                 allow_user_trust_override: false,
