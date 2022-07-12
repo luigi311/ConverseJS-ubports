@@ -15,36 +15,37 @@
  */
 
 import QtQuick 2.7
-import Ubuntu.Components 1.3
-//import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.2
 import Qt.labs.settings 1.0
 import QtWebEngine 1.8
+import Ubuntu.Components 1.3
+
 
 MainView {
-    id: root
-    objectName: 'mainView'
-    applicationName: 'conversejs.luigi311'
-    automaticOrientation: true
+    id : root
+    objectName : 'mainView'
+    applicationName : 'conversejs.luigi311'
+    automaticOrientation : true
+    backgroundColor : "transparent"
 
-    width: units.gu(45)
-    height: units.gu(75)
+    PageStack {
+        id : mainPageStack
+        anchors.fill : parent
+        Component.onCompleted : mainPageStack.push(mainPage)
+        Page {
+            id : mainPage
+            anchors.fill : parent
+            WebEngineView {
+                    id : webView
+                    anchors.fill : parent
+                    focus : true
+                    url : "http://localhost:19500/"
+                    settings.pluginsEnabled : true
+                    settings.javascriptEnabled : true
+                    settings.showScrollBars : false
 
-    Page {
-        anchors.fill: parent
-
-        header: PageHeader {
-            id: header
-            title: i18n.tr('ConverseJS')
-        }
-
-        WebEngineView {
-                id : webView
-                anchors.fill : parent
-                focus : true
-                url : "http://localhost:19999/"
-                settings.pluginsEnabled : true
-                settings.javascriptEnabled : true
+            }
         }
     }
 }

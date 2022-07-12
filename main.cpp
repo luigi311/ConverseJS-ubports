@@ -31,6 +31,9 @@ std::map<std::string, std::string> mimes;
 
 int main(int argc, char *argv[])
 {
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    
     QGuiApplication *app = new QGuiApplication(argc, (char**)argv);
     app->setApplicationName("conversejs.luigi311");
 
@@ -43,7 +46,7 @@ int main(int argc, char *argv[])
     mimes[".icon"] = "image/x-icon";
 
     qhttp::server::QHttpServer server;
-    server.listen(QHostAddress::LocalHost, 19999,
+    server.listen(QHostAddress::LocalHost, 19500,
         [](qhttp::server::QHttpRequest *req, qhttp::server::QHttpResponse *res)
     {
         QString docname = "./src/www" + (req->url().toString()==("/") ?("/index.html"):req->url().toString());
