@@ -1,6 +1,6 @@
 [Desktop Entry]
-Name=ConverseJS
-Exec=webapp-container --app-id="conversejs.luigi311" $@ www/index.html
+_Name=ConverseJS
+Exec=qmlscene %U qml/Main.qml
 Icon=assets/logo.svg
 Terminal=false
 Type=Application
