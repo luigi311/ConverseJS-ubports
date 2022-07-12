@@ -41,9 +41,9 @@ jobs:
       - name: Publish
         env:
           API_KEY: ${{ secrets.API_KEY }}
-        if: startsWith(github.event.ref, 'refs/tags/v') && "${{ env.API_KEY != '' }}" 
+        if: startsWith(github.event.ref, 'refs/tags/v')
         run: |
-          clickable publish --api-key ${{ env.API_KEY }} --arch ${{ matrix.arch }}
+          clickable publish --apikey ${{ env.API_KEY }} --arch ${{ matrix.arch }}
 
       - name: Changelog
         if: startsWith(github.event.ref, 'refs/tags/v')
