@@ -47,8 +47,10 @@ int main(int argc, char *argv[])
         [](qhttp::server::QHttpRequest *req, qhttp::server::QHttpResponse *res)
     {
         QString docname = "./src/www" + (req->url().toString()==("/") ?("/index.html"):req->url().toString());
-        if (!QFile(docname).exists())
+        if (!QFile(docname).exists()) {
+            qDebug() << docname << "not found";
             docname = QString("./src/www/index.html");
+        }
         QFile doc(docname);
         doc.open(QFile::ReadOnly);
 
@@ -62,7 +64,7 @@ int main(int argc, char *argv[])
         else
             res->addHeader("Content-Type", "application/octet-stream");
         res->setStatusCode(qhttp::TStatusCode::ESTATUS_OK);
-        res->end(doc.readAll());
+        res->write(doc.readAll());
     });
     
     QQuickView *view = new QQuickView();
