@@ -34,7 +34,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: conversejs.luigi311_${{ env.ARTIFACT_VERSION }}_${{ matrix.arch }}
+          name: conversejs.luigi311_${{ github.event.ref }}_${{ matrix.arch }}
           path: build/*/app/*.click
           if-no-files-found: error
       
