@@ -10,6 +10,6 @@
         }
     },
     "version": "1.0.0",
-    "maintainer": "luigi311 <ubports@luigi311.com>",
+    "maintainer": "luigi311 <ubports>",
     "framework" : "@CLICK_FRAMEWORK@"
 }

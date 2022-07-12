@@ -19,8 +19,8 @@ import Ubuntu.Components 1.3
 //import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import Qt.labs.settings 1.0
-import io.thp.pyotherside 1.4
 import QtWebEngine 1.8
+import Example 1.0
 
 MainView {
     id: root
@@ -31,37 +31,43 @@ MainView {
     width: units.gu(45)
     height: units.gu(75)
 
-    Python {
-        id: python
-
-        Component.onCompleted: {
-            addImportPath(Qt.resolvedUrl('../src/'));
-
-            importModule('server', function() {
-                console.log('module imported');
-                python.call('server.main', function(returnValue) {
-                    console.log('server.main returned ' + returnValue);
-                })
-            });
-        }
-
-        onError: {
-            console.log('python error: ' + traceback);
-        }
-    }
-
     Page {
-        id: mainPage
         anchors.fill: parent
 
-        WebEngineView {
-                id: webView
-                anchors.fill: parent
-                focus: true
-                url: "http://localhost:8080/"
-                settings.pluginsEnabled: true
-                settings.javascriptEnabled: true
+        header: PageHeader {
+            id: header
+            title: i18n.tr('ConverseJS')
+        }
+
+        ColumnLayout {
+            spacing: units.gu(2)
+            anchors {
+                margins: units.gu(2)
+                top: header.bottom
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+            }
+
+            Item {
+                Layout.fillHeight: true
+            }
+
+            Label {
+                id: label
+                Layout.alignment: Qt.AlignHCenter
+                text: i18n.tr('Press the button below and check the logs!')
+            }
+
+            Button {
+                Layout.alignment: Qt.AlignHCenter
+                text: i18n.tr('Press here!')
+                onClicked: Example.speak()
+            }
+
+            Item {
+                Layout.fillHeight: true
+            }
         }
     }
-
 }

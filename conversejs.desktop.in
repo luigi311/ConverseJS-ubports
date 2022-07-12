@@ -1,6 +1,6 @@
 [Desktop Entry]
 _Name=ConverseJS
-Exec=qmlscene %U qml/Main.qml
+Exec=conversejs %U
 Icon=assets/logo.svg
 Terminal=false
 Type=Application
