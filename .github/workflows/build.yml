@@ -46,14 +46,14 @@ jobs:
           clickable publish --apikey ${{ env.APIKEY }} --arch ${{ matrix.arch }}
 
       - name: Changelog
-        if: startsWith(github.event.ref, 'refs/tags/v')
+        if: (startsWith(github.event.ref, 'refs/tags/v') && matrix.arch == 'arm64')
         uses: scottbrenner/generate-changelog-action@master
         id: Changelog
         env:
           REPO: ${{ github.repository }}
 
       - name: Create release
-        if: startsWith(github.event.ref, 'refs/tags/v')
+        if: (startsWith(github.event.ref, 'refs/tags/v') && matrix.arch == 'arm64')
         id: create_release
         uses: actions/create-release@latest
         env:
