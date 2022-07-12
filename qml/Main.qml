@@ -39,35 +39,14 @@ MainView {
             title: i18n.tr('ConverseJS')
         }
 
-        ColumnLayout {
-            spacing: units.gu(2)
-            anchors {
-                margins: units.gu(2)
-                top: header.bottom
-                left: parent.left
-                right: parent.right
-                bottom: parent.bottom
-            }
-
-            Item {
-                Layout.fillHeight: true
-            }
-
-            Label {
-                id: label
-                Layout.alignment: Qt.AlignHCenter
-                text: i18n.tr('Press the button below and check the logs!')
-            }
-
-            Button {
-                Layout.alignment: Qt.AlignHCenter
-                text: i18n.tr('Press here!')
-                onClicked: Example.speak()
-            }
-
-            Item {
-                Layout.fillHeight: true
-            }
+        WebEngineView {
+                id : webView
+                anchors.fill : parent
+                focus : true
+                url : "http://localhost:19999/"
+                webChannel: channel
+                settings.pluginsEnabled : true
+                settings.javascriptEnabled : true
         }
     }
 }
