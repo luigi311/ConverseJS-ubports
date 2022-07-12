@@ -1,11 +1,10 @@
 {
-    "template": "ubuntu-webapp",
     "policy_groups": [
-        "webview",
         "networking",
         "content_exchange",
         "audio",
-        "video"
+        "video",
+        "webview"
     ],
     "policy_version": 16.04
 }
