@@ -100,7 +100,7 @@ MainView {
                     id : webContext
                     storageName : "Storage"
                     httpUserAgent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36"
-                    persistentStoragePath : "/home/phablet/.local/share/conversejs.luigi311/QWebEngine"
+                    persistentStoragePath : "/home/phablet/.local/share/conversejs.luigi311/QtWebEngine"
                 }
                 
                 onFileDialogRequested: function(request) {
