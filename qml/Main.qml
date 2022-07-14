@@ -111,6 +111,13 @@ MainView {
                         request.dialogAccept(fileUrl);
                     })
                 }
+
+                onNewViewRequested: {
+                    request.action = WebEngineNavigationRequest.IgnoreRequest
+                    if(request.userInitiated) {
+                        Qt.openUrlExternally(request. requestedUrl)
+                    }
+                }
             }
         }
     }
