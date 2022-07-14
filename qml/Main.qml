@@ -19,6 +19,7 @@ import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
 import QtQuick.Window 2.12
 import Qt.labs.settings 1.1
+import Qt.labs.platform 1.1
 import QtWebEngine 1.11
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
@@ -95,12 +96,13 @@ MainView {
                 settings.pluginsEnabled : true
                 settings.javascriptEnabled : true
                 settings.showScrollBars : false
-                
+
                 profile : WebEngineProfile {
                     id : webContext
                     storageName : "Storage"
                     httpUserAgent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36"
-                    persistentStoragePath : "/home/phablet/.local/share/conversejs.luigi311/QtWebEngine"
+                    // remove file:/// from the beginning of the StandardPaths.standardLocations(17)[0]
+                    persistentStoragePath : StandardPaths.standardLocations(17)[0].substring(7) + "/QtWebEngine"
                 }
                 
                 onFileDialogRequested: function(request) {
