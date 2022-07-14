@@ -26,11 +26,15 @@ import Ubuntu.Content 1.3
 
 
 MainView {
-    id : root
+    id : mainView
     objectName : 'mainView'
     applicationName : 'conversejs.luigi311'
     automaticOrientation : true
     backgroundColor : "transparent"
+    width: units.gu(75)
+    height: units.gu(65)
+    clip: false
+    
     anchors {
         fill : parent
         bottomMargin : UbuntuApplication.inputMethod.visible
@@ -47,6 +51,34 @@ MainView {
         }
     }
 
+    Settings {
+        id: appSettings
+        property string systemTheme: 'SuruDark'
+        property string pushToken: ''
+        property string pushAppId: 'conversejs.luigi311_conversejs'
+        property bool windowActive: true
+    }
+
+    Component.onCompleted: function () {
+        theme.name = ""
+        appSettings.systemTheme = theme.name.substring(theme.name.lastIndexOf(".")+1)
+    }
+    onActiveChanged: () => {appSettings.windowActive = mainView.active}
+
+    function setCurrentTheme(themeName) {
+        if (themeName === "System") {
+            theme.name = "";
+        }
+        else if (themeName === "SuruDark") {
+            theme.name = "Ubuntu.Components.Themes.SuruDark"
+        }
+        else if (themeName === "Ambiance") {
+            theme.name = "Ubuntu.Components.Themes.Ambiance"
+        }
+        else {
+            theme.name = "";
+        }
+    }
 
     PageStack {
         id : mainPageStack
@@ -56,14 +88,29 @@ MainView {
             id : mainPage
             anchors.fill : parent
             WebEngineView {
-                    id : webView
-                    anchors.fill : parent
-                    focus : true
-                    url : "http://localhost:19500/"
-                    settings.pluginsEnabled : true
-                    settings.javascriptEnabled : true
-                    settings.showScrollBars : false
-
+                id : webView
+                anchors.fill : parent
+                focus : true
+                url : "http://localhost:19500/"
+                settings.pluginsEnabled : true
+                settings.javascriptEnabled : true
+                settings.showScrollBars : false
+                
+                profile : WebEngineProfile {
+                    id : webContext
+                    storageName : "Storage"
+                    httpUserAgent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36"
+                    persistentStoragePath : "/home/phablet/.local/share/conversejs.luigi311/QWebEngine"
+                }
+                
+                onFileDialogRequested: function(request) {
+                    request.accepted = true;
+                    var importPage = mainPageStack.push(Qt.resolvedUrl("ImportPage.qml"),{"contentType": ContentType.All, "handler": ContentHandler.Source})
+                    importPage.imported.connect(function(fileUrl) {
+                        console.log("files: " + fileUrl)
+                        request.dialogAccept(fileUrl);
+                    })
+                }
             }
         }
     }

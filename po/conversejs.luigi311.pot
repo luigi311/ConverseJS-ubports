@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: conversejs.luigi311\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-12 20:01+0000\n"
+"POT-Creation-Date: 2022-07-14 05:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: ../qml/ImportPage.qml:40
+msgid "Choose"
+msgstr ""
 
 #: conversejs.desktop.in.h:1
 msgid "ConverseJS"
