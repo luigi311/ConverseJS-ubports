@@ -44,10 +44,3 @@ jobs:
         if: startsWith(github.event.ref, 'refs/tags/v')
         run: |
           clickable publish --apikey ${{ env.APIKEY }} --arch ${{ matrix.arch }}
-
-      - name: Release
-        uses: "marvinpinto/action-automatic-releases@latest"
-        if: startsWith(github.event.ref, 'refs/tags/v')
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: false

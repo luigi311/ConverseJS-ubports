@@ -34,8 +34,16 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+
+    // Enable gpu acceleration
+    QGuiApplication::setAttribute(Qt::AA_UseOpenGLES);
+    const char *chromium_flags = "--enable-gpu-rasterization --enable-gpu-compositing --enable-zero-copy --enable-zero-copy-rasterization \
+        --enable-accelerated-video-decode --enable-accelerated-mjpeg-decode --enable-native-gpu-memory-buffers --enable-oop-rasterization  \
+        --canvas-oop-rasterization --turn-off-streaming-media-caching-on-battery --back-forward-cache --smooth-scrolling --enable-quic --enable-parallel-downloading";
     
-    QGuiApplication *app = new QGuiApplication(argc, (char**)argv);
+    qputenv("QTWEBENGINE_CHROMIUM_FLAGS", chromium_flags);
+    
+    QGuiApplication *app = new QGuiApplication(argc, (char **)argv);
     app->setApplicationName("conversejs.luigi311");
 
     mimes[".html"] = "text/html";
@@ -48,29 +56,30 @@ int main(int argc, char *argv[])
 
     qhttp::server::QHttpServer server;
     server.listen(QHostAddress::LocalHost, 19500,
-        [](qhttp::server::QHttpRequest *req, qhttp::server::QHttpResponse *res)
-    {
-        QString docname = "./src/www" + (req->url().toString()==("/") ?("/index.html"):req->url().toString());
-        if (!QFile(docname).exists()) {
-            qDebug() << docname << "not found";
-            docname = QString("./src/www/index.html");
-        }
-        QFile doc(docname);
-        doc.open(QFile::ReadOnly);
+                  [](qhttp::server::QHttpRequest *req, qhttp::server::QHttpResponse *res)
+                  {
+                      QString docname = "./src/www" + (req->url().toString() == ("/") ? ("/index.html") : req->url().toString());
+                      if (!QFile(docname).exists())
+                      {
+                          qDebug() << docname << "not found";
+                          docname = QString("./src/www/index.html");
+                      }
+                      QFile doc(docname);
+                      doc.open(QFile::ReadOnly);
 
-        res->addHeader("Content-Length", QString::number(doc.size()).toUtf8());
-        res->addHeader("Connection", "keep-alive");
+                      res->addHeader("Content-Length", QString::number(doc.size()).toUtf8());
+                      res->addHeader("Connection", "keep-alive");
 
-        auto doc_str = docname.toStdString();
-        auto doc_ext = doc_str.substr(doc_str.find_last_of('.'));
-        if (mimes.count(doc_ext) > 0)
-            res->addHeader("Content-Type", mimes[doc_ext].data());
-        else
-            res->addHeader("Content-Type", "application/octet-stream");
-        res->setStatusCode(qhttp::TStatusCode::ESTATUS_OK);
-        res->write(doc.readAll());
-    });
-    
+                      auto doc_str = docname.toStdString();
+                      auto doc_ext = doc_str.substr(doc_str.find_last_of('.'));
+                      if (mimes.count(doc_ext) > 0)
+                          res->addHeader("Content-Type", mimes[doc_ext].data());
+                      else
+                          res->addHeader("Content-Type", "application/octet-stream");
+                      res->setStatusCode(qhttp::TStatusCode::ESTATUS_OK);
+                      res->write(doc.readAll());
+                  });
+
     QQuickView *view = new QQuickView();
     view->setSource(QUrl("qrc:/Main.qml"));
     view->setResizeMode(QQuickView::SizeRootObjectToView);
