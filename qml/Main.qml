@@ -101,8 +101,8 @@ MainView {
                     id : webContext
                     storageName : "Storage"
                     httpUserAgent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36"
-                    // remove file:/// from the beginning of the StandardPaths.standardLocations(17)[0]
-                    persistentStoragePath : StandardPaths.standardLocations(17)[0].substring(7) + "/QtWebEngine"
+                    // remove file:/// from the beginning of the StandardPaths.standardLocations(StandardPaths::AppDataLocation)[0]
+                    persistentStoragePath : StandardPaths.standardLocations(StandardPaths.AppDataLocation)[0].substring(7) + "/QtWebEngine"
                 }
                 
                 onFileDialogRequested: function(request) {
@@ -120,6 +120,15 @@ MainView {
                         Qt.openUrlExternally(request. requestedUrl)
                     }
                 }
+
+                onFullScreenRequested : function (request) {
+                    request.accept()
+                    if (request.toggleOn)
+                        window.showFullScreen()
+                    else
+                        window.showNormal()
+                }
+                
             }
         }
     }
