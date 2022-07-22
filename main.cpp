@@ -31,11 +31,14 @@ std::map<std::string, std::string> mimes;
 
 int main(int argc, char *argv[])
 {
+    // Enable support for high resolution screens, breaks on some systems such as when using clickable desktop so disable when needed
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    
+    // Enable opengl support massively speeding up rendering for the webview
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
-    // Enable gpu acceleration
+    // Enable gpu acceleration and chromium flags to hopefully speed up rendering
     QGuiApplication::setAttribute(Qt::AA_UseOpenGLES);
     const char *chromium_flags = "--enable-gpu-rasterization --enable-gpu-compositing --enable-zero-copy --enable-zero-copy-rasterization \
         --enable-accelerated-video-decode --enable-accelerated-mjpeg-decode --enable-native-gpu-memory-buffers --enable-oop-rasterization  \
@@ -43,6 +46,7 @@ int main(int argc, char *argv[])
     
     qputenv("QTWEBENGINE_CHROMIUM_FLAGS", chromium_flags);
     
+    // Create the application
     QGuiApplication *app = new QGuiApplication(argc, (char **)argv);
     app->setApplicationName("conversejs.luigi311");
 
@@ -54,6 +58,8 @@ int main(int argc, char *argv[])
     mimes[".png"] = "image/png";
     mimes[".icon"] = "image/x-icon";
 
+    // Create the webserver that will host the conversejs files and be accessed via http://localhost:19500/
+    // Sourced from https://github.com/nitanmarcel/cinny-click-packaging/
     qhttp::server::QHttpServer server;
     server.listen(QHostAddress::LocalHost, 19500,
                   [](qhttp::server::QHttpRequest *req, qhttp::server::QHttpResponse *res)
@@ -80,6 +86,7 @@ int main(int argc, char *argv[])
                       res->write(doc.readAll());
                   });
 
+    // Create the QML view that will host the conversejs app
     QQuickView *view = new QQuickView();
     view->setSource(QUrl("qrc:/Main.qml"));
     view->setResizeMode(QQuickView::SizeRootObjectToView);
