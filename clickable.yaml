@@ -1,3 +1,9 @@
 clickable_minimum_required: 7.1.2
-builder: cmake
+builder: rust
 kill: conversejs
+install_root_data:
+- manifest.json
+- conversejs.apparmor
+- conversejs.desktop
+- assets
+- www

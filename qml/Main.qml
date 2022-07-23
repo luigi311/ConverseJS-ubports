@@ -5,7 +5,7 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3.
  *
- * conversejs is distributed in the hope that it will be useful,
+ * test-rust is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -13,8 +13,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-// QML for the main application
 
 import QtQuick 2.12
 import QtQuick.Layouts 1.12
@@ -28,68 +26,35 @@ import Ubuntu.Components.Popups 1.3
 import Ubuntu.Content 1.3
 
 
-MainView {
-    id : mainView
-    objectName : 'mainView'
-    applicationName : 'conversejs.luigi311'
-    automaticOrientation : true
-    backgroundColor : "transparent"
-    width: units.gu(75)
-    height: units.gu(65)
-    clip: false
-    
-    // Shrink the window whenever the keyboard is shown so that the chat area is not covered by the keyboard
-    anchors {
-        fill : parent
-        bottomMargin : UbuntuApplication.inputMethod.visible
-            ? UbuntuApplication
-                .inputMethod
-                .keyboardRectangle
-                .height / Screen.devicePixelRatio
-            : 0
-        Behavior on bottomMargin {
-            NumberAnimation {
-                duration : 175
-                easing.type : Easing.OutQuad
-            }
-        }
-    }
+ApplicationWindow {
+    id: root
+    objectName: 'mainView'
 
-    // Settings for themes and names used for push notifications
-    Settings {
-        id: appSettings
-        property string systemTheme: 'SuruDark'
-        property string pushToken: ''
-        property string pushAppId: 'conversejs.luigi311_conversejs'
-        property bool windowActive: true
-    }
+    width: units.gu(45)
+    height: units.gu(75)
+    visible: true
 
-    // Set the theme for the application
-    Component.onCompleted: function () {
-        theme.name = ""
-        appSettings.systemTheme = theme.name.substring(theme.name.lastIndexOf(".")+1)
-    }
-    onActiveChanged: () => {appSettings.windowActive = mainView.active}
 
-    function setCurrentTheme(themeName) {
-        if (themeName === "System") {
-            theme.name = "";
-        }
-        else if (themeName === "SuruDark") {
-            theme.name = "Ubuntu.Components.Themes.SuruDark"
-        }
-        else if (themeName === "Ambiance") {
-            theme.name = "Ubuntu.Components.Themes.Ambiance"
-        }
-        else {
-            theme.name = "";
-        }
-    }
-
-    // Stack to hold everything related to the app itself
     PageStack {
         id : mainPageStack
         anchors.fill : parent
+        // Shrink the window whenever the keyboard is shown so that the chat area is not covered by the keyboard
+        anchors {
+            fill : parent
+            bottomMargin : UbuntuApplication.inputMethod.visible
+                ? UbuntuApplication
+                    .inputMethod
+                    .keyboardRectangle
+                    .height / Screen.devicePixelRatio
+                : 0
+            Behavior on bottomMargin {
+                NumberAnimation {
+                    duration : 175
+                    easing.type : Easing.OutQuad
+                }
+            }
+        }
+        
         Component.onCompleted : mainPageStack.push(mainPage)
         
         // Page to hold the app itself
@@ -97,13 +62,12 @@ MainView {
             id : mainPage
             anchors.fill : parent
 
-            // Create a chromium instance
             WebEngineView {
                 id : webView
                 anchors.fill : parent
                 
                 focus : true
-                url : "http://localhost:19500/"
+                url : "http://localhost:9060/index.html"
                 
                 settings.pluginsEnabled : true
                 settings.javascriptEnabled : true
@@ -148,5 +112,6 @@ MainView {
                 
             }
         }
+        
     }
 }
