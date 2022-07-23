@@ -5,7 +5,7 @@
 * it under the terms of the GNU General Public License as published by
 * the Free Software Foundation; version 3.
 *
-* test-rust is distributed in the hope that it will be useful,
+* conversejs is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
@@ -30,22 +30,27 @@ mod qrc;
 
 use actix_files as fs;
 use actix_web::{App, HttpServer};
+
 #[actix_web::main]
 async fn webserver(port: u16) -> std::io::Result<()> {
+    
     HttpServer::new(|| {
-        App::new().service(
-            fs::Files::new("/", "www/")
+        App::new()
+            .service(fs::Files::new("/", "www/")
                 .show_files_listing()
-                .use_last_modified(true),
-        )
+                .use_last_modified(true)
+                
+            )
     })
-    .bind(("0.0.0.0", port))?
+    .bind(("127.0.0.1", port))?
+    .workers(2)
     .run()
     .await
+
 }
 
 fn init_gettext() {
-    let domain = "test-rust.luigi311";
+    let domain = "conversejs.luigi311";
     textdomain(domain).expect("Failed to set gettext domain");
 
     let app_dir = env::var("APP_DIR").expect("Failed to read the APP_DIR environment variable");
@@ -60,12 +65,13 @@ fn init_gettext() {
     bindtextdomain(domain, path.to_str().unwrap()).expect("Failed to bind gettext domain");
 }
 
-
 fn main() {
-    thread::spawn(|| {
-        let port = env::var("PORT").unwrap_or("9060".to_string());
-        webserver(port.parse().unwrap()).unwrap();
+
+    thread::spawn(move || {
+        let port = 9090;
+        webserver(port).map_err(|err| println!("Webserver error: {:?}", err)).ok();
     });
+
     init_gettext();
     unsafe {
         cpp! { {
@@ -74,15 +80,16 @@ fn main() {
         }}
         cpp! {[]{
             // Enable support for high resolution screens, breaks on some systems such as when using clickable desktop so disable when needed
-            //QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-            //QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+            QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+            QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
             
             // Enable opengl support massively speeding up rendering for the webview
             QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
             
-            QCoreApplication::setApplicationName(QStringLiteral("test-rust.luigi311"));
+            QCoreApplication::setApplicationName(QStringLiteral("conversejs.luigi311"));
         }}
     }
+    
     QQuickStyle::set_style("Suru");
     qrc::load();
     let mut engine = QmlEngine::new();

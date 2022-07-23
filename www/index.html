@@ -54,7 +54,7 @@
         var getWebsocket = localStorage.getItem("websocket");
         var getBosh = localStorage.getItem("bosh");
         var getTheme = localStorage.getItem("theme");
-        //var autologin = localStorage.getItem("autologin");
+        var autologin = localStorage.getItem("autologin");
 
         if (getJid) {
             document.getElementById("jid").value = getJid;
@@ -119,7 +119,11 @@
             var getTheme = localStorage.getItem("theme");
             
             if (getTheme) {
-               theme = getTheme;
+                if (getTheme === "default") {
+                    theme = "dracula";
+                } else {
+                    theme = getTheme;
+                }
             } 
 
             converse.initialize({

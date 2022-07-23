@@ -1,6 +1,7 @@
 qrc!(qml_resources,
     "/" {
-        "qml/Main.qml"
+        "qml/Main.qml",
+        "qml/ImportPage.qml"
     },
 );
 

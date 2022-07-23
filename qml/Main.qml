@@ -5,7 +5,7 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3.
  *
- * test-rust is distributed in the hope that it will be useful,
+ * conversejs is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -54,7 +54,7 @@ ApplicationWindow {
                 }
             }
         }
-        
+
         Component.onCompleted : mainPageStack.push(mainPage)
         
         // Page to hold the app itself
@@ -67,7 +67,7 @@ ApplicationWindow {
                 anchors.fill : parent
                 
                 focus : true
-                url : "http://localhost:9060/index.html"
+                url : "http://localhost:9090/index.html"
                 
                 settings.pluginsEnabled : true
                 settings.javascriptEnabled : true
