@@ -33,17 +33,16 @@ use actix_web::{App, HttpServer};
 
 #[actix_web::main]
 async fn webserver(port: u16) -> std::io::Result<()> {
-    
+
     HttpServer::new(|| {
         App::new()
             .service(fs::Files::new("/", "www/")
                 .show_files_listing()
                 .use_last_modified(true)
-                
+
             )
     })
     .bind(("127.0.0.1", port))?
-    .workers(2)
     .run()
     .await
 
@@ -82,14 +81,14 @@ fn main() {
             // Enable support for high resolution screens, breaks on some systems such as when using clickable desktop so disable when needed
             QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
             QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-            
+
             // Enable opengl support massively speeding up rendering for the webview
             QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
-            
+
             QCoreApplication::setApplicationName(QStringLiteral("conversejs.luigi311"));
         }}
     }
-    
+
     QQuickStyle::set_style("Suru");
     qrc::load();
     let mut engine = QmlEngine::new();

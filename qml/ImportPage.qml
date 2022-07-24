@@ -22,7 +22,7 @@ import Ubuntu.Content 1.3
 
 Page {
     id: picker
-    
+
     // Custom struct to hold an array of attachment to allow multiple attachments at once
     Item {
         id: itemFiles
@@ -64,7 +64,7 @@ Page {
                     if (picker.activeTransfer.items.length > 0) {
                         console.log("Got items")
                         // Iterate over all the items and add them to the array called itemFiles
-                        for (var i = 0; i < picker.activeTransfer.items.length; i++) {                        
+                        for (var i = 0; i < picker.activeTransfer.items.length; i++) {
                             itemFiles.files.push(picker.activeTransfer.items[i].url)
                             console.log(picker.activeTransfer.items[i].url)
                         }

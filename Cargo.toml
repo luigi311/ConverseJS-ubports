@@ -6,9 +6,9 @@ edition = "2018"
 build = "src/build.rs"
 
 [dependencies]
-qmetaobject = "0.2.3"
+qmetaobject = "0.2"
 gettext-rs = "0.7"
-cstr = "0.2.8"
+cstr = "0.2"
 cpp = "0.5"
 actix-web = "3"
 actix-files = "0.5"

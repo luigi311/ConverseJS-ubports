@@ -82,9 +82,9 @@ fn gettext() {
 
         let exit_status = child.wait().unwrap();
         assert!(exit_status.code() == Some(0));
-        
+
         let install_dir = env_var("INSTALL_DIR").unwrap();
-        
+
         let mo_dir = format!(
             "{}/share/locale/{}/LC_MESSAGES",
             install_dir,

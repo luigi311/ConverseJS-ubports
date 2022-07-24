@@ -1,12 +1,13 @@
 {
     "name": "conversejs.luigi311",
-    "description": "ConverseJS Server",
+    "description": "Jabber chat with OMEMO encryption",
     "architecture": "@CLICK_ARCH@",
     "title": "ConverseJS",
     "hooks": {
         "conversejs": {
             "apparmor": "conversejs.apparmor",
-            "desktop":  "conversejs.desktop"
+            "desktop":  "conversejs.desktop",
+            "content-hub": "content-hub.json"
         }
     },
     "version": "1.5.0",

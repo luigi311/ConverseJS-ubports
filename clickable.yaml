@@ -3,6 +3,7 @@ builder: rust
 kill: conversejs
 install_root_data:
 - manifest.json
+- content-hub.json
 - conversejs.apparmor
 - conversejs.desktop
 - assets

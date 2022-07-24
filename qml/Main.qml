@@ -56,7 +56,7 @@ ApplicationWindow {
         }
 
         Component.onCompleted : mainPageStack.push(mainPage)
-        
+
         // Page to hold the app itself
         Page {
             id : mainPage
@@ -65,10 +65,10 @@ ApplicationWindow {
             WebEngineView {
                 id : webView
                 anchors.fill : parent
-                
+
                 focus : true
                 url : "http://localhost:9090/index.html"
-                
+
                 settings.pluginsEnabled : true
                 settings.javascriptEnabled : true
                 settings.showScrollBars : false
@@ -82,7 +82,7 @@ ApplicationWindow {
                     // remove file:/// from the beginning of the StandardPaths.standardLocations(StandardPaths::AppDataLocation)[0]
                     persistentStoragePath : StandardPaths.standardLocations(StandardPaths.AppDataLocation)[0].substring(7) + "/QtWebEngine"
                 }
-                
+
                 // Open the ImportPage.qml whenever the user clicks on a file releated function such as adding attachments
                 onFileDialogRequested: function(request) {
                     request.accepted = true;
@@ -109,9 +109,9 @@ ApplicationWindow {
                     else
                         window.showNormal()
                 }
-                
+
             }
         }
-        
+
     }
 }
