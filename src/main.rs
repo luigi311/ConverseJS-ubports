@@ -88,6 +88,13 @@ fn main() {
             QCoreApplication::setApplicationName(QStringLiteral("conversejs.luigi311"));
         }}
     }
+    
+    // Set enviorment variables for chromium
+    let chromium_flags = "--enable-gpu-compositing --enable-native-gpu-memory-buffers  --enable-zero-copy --enable-zero-copy-rasterization  \
+        --enable-accelerated-video-decode --enable-accelerated-mjpeg-decode  \
+        --enable-oop-rasterization --canvas-oop-rasterization \
+        --turn-off-streaming-media-caching-on-battery --back-forward-cache --smooth-scrolling --enable-quic --enable-parallel-downloading";
+    env::set_var("QTWEBENGINE_CHROMIUM_FLAGS", chromium_flags);
 
     QQuickStyle::set_style("Suru");
     qrc::load();
