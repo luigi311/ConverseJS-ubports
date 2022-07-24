@@ -106,7 +106,7 @@
         function startconversejs() {
             var getJid = localStorage.getItem("jid");
             var getPass = localStorage.getItem("password");
-            
+
             if (getJid === null || getPass === null) {
                 var getJid = sessionStorage.getItem("jid");
                 var getPass = sessionStorage.getItem("password");
@@ -117,14 +117,14 @@
             var getBosh = localStorage.getItem("bosh");
             var theme = "dracula";
             var getTheme = localStorage.getItem("theme");
-            
+
             if (getTheme) {
                 if (getTheme === "default") {
                     theme = "dracula";
                 } else {
                     theme = getTheme;
                 }
-            } 
+            }
 
             converse.initialize({
                 websocket_url: `${getWs}`,

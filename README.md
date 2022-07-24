@@ -5,10 +5,10 @@ Jabber chat with OMEMO encryption
 ## How to update
 
 ### Conversejs
-Download the latest conversejs release from the github page https://github.com/conversejs/converse.js/releases, the full release not the headless one. Delete src/www/dist and drop in the dist folder from the new release. Assuming nothing major has changed in how conversejs is initialized everything else should work. In the event that the initialization is changed then you will need to edit src/index.html and update the startconversejs function at the bottom.
+Download the latest conversejs release from the github page https://github.com/conversejs/converse.js/releases, the full release not the headless one. Delete www/dist and drop in the dist folder from the new release. Assuming nothing major has changed in how conversejs is initialized everything else should work. In the event that the initialization is changed then you will need to edit www/index.html and update the startconversejs function at the bottom.
 
 ### Webserver
-The webserver is located in the libs folder and the actual source comes from here https://github.com/azadkuh/qhttp, this webserver is not maintained anymore but is one of the only webservers that can be ran from the version of QT that ubuntu touch 16.04 has access too. This can be replaced with a more modern web server once ubuntu touch is updated for 20.04+. Attempts were made to use pythons builtin web server but ran into issues with having that run concurently as ubuntu touch did not allow me to use QProcess to run it in another thread. If this is resolved then something like pythons http.server should work or something else thats more performant such as sanic would be better https://github.com/sanic-org/sanic using the static file hosting to host the entire src/www folder.
+Webserver is utilizing actix_web in a seperate thread. This utilizes version 3 as ubuntu touch 16.04 builtin rust version does not support version 4+. Once ubuntu touch is updated with a newer base and a higher version of rust we can update this to the latest version by editing the Cargo.toml file and do the same with actix-files. This should hopefully be a simple update process as we are not doing anything special with the web server as it just serves static files.
 
 ## License
 
