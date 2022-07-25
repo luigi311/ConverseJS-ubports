@@ -96,6 +96,12 @@ fn main() {
         --turn-off-streaming-media-caching-on-battery --back-forward-cache --smooth-scrolling --enable-quic --enable-parallel-downloading";
     env::set_var("QTWEBENGINE_CHROMIUM_FLAGS", chromium_flags);
 
+    // If using wayland set scaling to 1.7, workaround for pinephone size issues
+    let qt_qpa_platform = env::var("QT_QPA_PLATFORM").unwrap_or("".to_string());
+    if qt_qpa_platform == "wayland" {
+        env::set_var("QT_SCALE_FACTOR", "1.7");
+    }
+
     QQuickStyle::set_style("Suru");
     qrc::load();
     let mut engine = QmlEngine::new();
