@@ -44,6 +44,7 @@ jobs:
           curl -s -L https://github.com/repos/${GITHUB_REPOSITORY}/releases/tag/${GITHUB_REF/refs\/tags\//} > temp.html
           sed -n '/data-test-selector="body-content"/,/<\/div>/p'  temp.html > changelog.html
           html2text changelog.html > changelog.txt
+          sed -i "1s/^/${GITHUB_REF/refs\/tags\//}\n/" changelog.txt
       
       - name: Publish with changelog
         if: startsWith(github.event.ref, 'refs/tags/v') && matrix.arch == 'amd64'
