@@ -1,6 +1,6 @@
 [package]
 name = "conversejs"
-version = "1.5.0"
+version = "1.5.2"
 authors = ["luigi311 <ubports@luigi311.com>"]
 edition = "2018"
 build = "src/build.rs"
