@@ -49,6 +49,8 @@ jobs:
       - name: Publish with changelog
         if: startsWith(github.event.ref, 'refs/tags/v') && matrix.arch == 'amd64'
         id: publish-wc
+        env:
+          APIKEY: ${{ secrets.APIKEY }}
         continue-on-error: true
         run: |
           clickable publish --apikey ${{ env.APIKEY }} --arch ${{ matrix.arch }} "$(<changelog.txt)"
@@ -57,6 +59,8 @@ jobs:
       - name: Publish without changelog
         if: startsWith(github.event.ref, 'refs/tags/v') && matrix.arch == 'amd64' && steps.publish-wc.outcome != 'success'
         id: publish-without-changelog
+        env:
+          APIKEY: ${{ secrets.APIKEY }}
         run: |
           clickable publish --apikey ${{ env.APIKEY }} --arch ${{ matrix.arch }}
 
