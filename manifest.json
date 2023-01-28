@@ -10,7 +10,7 @@
             "content-hub": "content-hub.json"
         }
     },
-    "version": "1.5.2",
+    "version": "1.5.3",
     "maintainer": "luigi311 <ubports@luigi311.com>",
     "framework" : "@CLICK_FRAMEWORK@"
 }
