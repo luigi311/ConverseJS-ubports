@@ -10,6 +10,9 @@ on:
       - .gitignore
       - "*.md"
 
+env:
+  VERSION: ubuntu-sdk-20.04
+
 jobs:
   build:
     strategy:
@@ -29,7 +32,7 @@ jobs:
       
       - name: Build
         run: |
-          clickable build --arch ${{ matrix.arch }}
+          CLICKABLE_FRAMEWORK=${VERSION} clickable build --arch ${{ matrix.arch }}
       
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
@@ -41,7 +44,7 @@ jobs:
       - name: Grab changelog
         if: startsWith(github.event.ref, 'refs/tags/v') && matrix.arch == 'amd64'
         run: |
-          curl -s -L https://github.com/repos/${GITHUB_REPOSITORY}/releases/tag/${GITHUB_REF/refs\/tags\//} > temp.html
+          curl -s -L https://github.com/${GITHUB_REPOSITORY}/releases/tag/${GITHUB_REF/refs\/tags\//} > temp.html
           sed -n '/data-test-selector="body-content"/,/<\/div>/p'  temp.html > changelog.html
           html2text changelog.html > changelog.txt
           sed -i "1s/^/${GITHUB_REF/refs\/tags\//}\n/" changelog.txt
@@ -53,7 +56,7 @@ jobs:
           APIKEY: ${{ secrets.APIKEY }}
         continue-on-error: true
         run: |
-          clickable publish --apikey ${{ env.APIKEY }} --arch ${{ matrix.arch }} "$(<changelog.txt)"
+          CLICKABLE_FRAMEWORK=${VERSION} clickable publish --apikey ${{ env.APIKEY }} --arch ${{ matrix.arch }} "$(<changelog.txt)"
       
       # publish without changelog for amd64 if publish-wc fails as a fallback
       - name: Publish without changelog
@@ -62,11 +65,11 @@ jobs:
         env:
           APIKEY: ${{ secrets.APIKEY }}
         run: |
-          clickable publish --apikey ${{ env.APIKEY }} --arch ${{ matrix.arch }}
+          CLICKABLE_FRAMEWORK=${VERSION} clickable publish --apikey ${{ env.APIKEY }} --arch ${{ matrix.arch }}
 
       - name: Publish without changelog
         env:
           APIKEY: ${{ secrets.APIKEY }}
         if: startsWith(github.event.ref, 'refs/tags/v') && matrix.arch != 'amd64'
         run: |
-          clickable publish --apikey ${{ env.APIKEY }} --arch ${{ matrix.arch }}
+          CLICKABLE_FRAMEWORK=${VERSION} clickable publish --apikey ${{ env.APIKEY }} --arch ${{ matrix.arch }}

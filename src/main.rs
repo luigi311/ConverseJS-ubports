@@ -52,9 +52,8 @@ fn init_gettext() {
     let domain = "conversejs.luigi311";
     textdomain(domain).expect("Failed to set gettext domain");
 
-    let app_dir = env::var("APP_DIR").expect("Failed to read the APP_DIR environment variable");
-
-    let mut app_dir_path = PathBuf::from(app_dir);
+    let mut app_dir_path = env::current_dir().expect("Failed to get the app working directory");
+    
     if !app_dir_path.is_absolute() {
         app_dir_path = PathBuf::from("/usr");
     }

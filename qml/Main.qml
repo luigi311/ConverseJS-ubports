@@ -21,9 +21,9 @@ import QtQuick.Window 2.12
 import Qt.labs.settings 1.1
 import Qt.labs.platform 1.1
 import QtWebEngine 1.11
-import Ubuntu.Components 1.3
-import Ubuntu.Components.Popups 1.3
-import Ubuntu.Content 1.3
+import Lomiri.Components 1.3
+import Lomiri.Components.Popups 1.3
+import Lomiri.Content 1.3
 
 
 ApplicationWindow {
